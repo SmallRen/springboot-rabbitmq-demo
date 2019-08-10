@@ -1,8 +1,6 @@
 package com.smallren.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @Description: java类作用描述
@@ -13,16 +11,17 @@ import javax.persistence.Table;
  * @UpdateRemark:
  * @Version: 3.5.xxx
  */
-public class User {
-    private int id;
+
+public class User implements Serializable {
+    private Long id;
     private String username;
     private String password;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

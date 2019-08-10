@@ -19,4 +19,6 @@ public interface UserDao {
     List<User> select();
 
     int save(User user);
+
+    int update(User user);
 }

@@ -31,6 +31,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int save(User user) {
-        return userDao.save(user);
+        if(user.getId()==null){
+            return userDao.save(user);
+        }
+        else{
+            return userDao.update(user);
+        }
+
     }
 }

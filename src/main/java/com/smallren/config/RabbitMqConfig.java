@@ -9,6 +9,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,21 +24,24 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class RabbitMqConfig {
+    @Value("${application.type}")
+    public   String types;
+
+    public static String type;
 
     private static final Logger log = LoggerFactory.getLogger(RabbitMqConfig.class);
-
+    public static final String SAVE = "save-";
+    public static final String UPDATE = "update-";
     /**
      * 消息交换机的名字
      */
     public static final String EXCHANGE = "exchangeTest";
     /**
-     * 队列key1
+     * ROUTING
      */
-    public static final String ROUTINGKEY1 = "queue_one_key1";
-    /**
-     * 队列key2
-     */
-    public static final String ROUTINGKEY2 = "queue_one_key2";
+    public static final String ROUTING = "routing_";
+    public static final String ROUTING_USER = "routing_User";
+    public static final String QUEUE_USER = "queue_User";
 
     @Autowired
     private QueueConfig queueConfig;
@@ -54,16 +58,8 @@ public class RabbitMqConfig {
      * 将消息队列1和交换机进行绑定
      */
     @Bean
-    public Binding binding_one() {
-        return BindingBuilder.bind(queueConfig.firstQueue()).to(exchangeConfig.directExchange()).with(RabbitMqConfig.ROUTINGKEY1);
-    }
-
-    /**
-     * 将消息队列2和交换机进行绑定
-     */
-    @Bean
-    public Binding binding_two() {
-        return BindingBuilder.bind(queueConfig.secondQueue()).to(exchangeConfig.directExchange()).with(RabbitMqConfig.ROUTINGKEY2);
+    public Binding bindingSave() {
+        return BindingBuilder.bind(queueConfig.UserQueue()).to(exchangeConfig.directExchange()).with(ROUTING_USER);
     }
 
     /**
@@ -75,8 +71,7 @@ public class RabbitMqConfig {
     @Bean
     public SimpleMessageListenerContainer simpleMessageListenerContainer_one() {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
-        simpleMessageListenerContainer.addQueues(queueConfig.firstQueue());
-        simpleMessageListenerContainer.addQueues(queueConfig.secondQueue());
+        simpleMessageListenerContainer.addQueues(queueConfig.UserQueue());
         simpleMessageListenerContainer.setExposeListenerChannel(true);
         simpleMessageListenerContainer.setMaxConcurrentConsumers(5);
         simpleMessageListenerContainer.setConcurrentConsumers(1);

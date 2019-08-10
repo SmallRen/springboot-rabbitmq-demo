@@ -10,5 +10,7 @@
     <insert id="save" parameterType="com.smallren.entity.User">
         insert into user  (username,password) values (#{username},#{password})
     </insert>
-
+    <update id="update" parameterType="com.smallren.entity.User">
+    update user set username=#{username},password=#{password} where id=#{id}
+</update>
 </mapper>
