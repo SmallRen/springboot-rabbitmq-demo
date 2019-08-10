@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smallren.dao.UserDao">
+
+
+    <select id="select" resultType="com.smallren.entity.User">
+
+        select * from  user
+    </select>
+    <insert id="save" parameterType="com.smallren.entity.User">
+        insert into user  (username,password) values (#{username},#{password})
+    </insert>
+    <update id="update" parameterType="com.smallren.entity.User">
+    update user set username=#{username},password=#{password} where id=#{id}
+</update>
+</mapper>
