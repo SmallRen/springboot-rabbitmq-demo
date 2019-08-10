@@ -16,5 +16,5 @@ import java.util.List;
 public interface IUserService {
     List<User> select();
 
-    int save(User user);
+    User save(User user);
 }

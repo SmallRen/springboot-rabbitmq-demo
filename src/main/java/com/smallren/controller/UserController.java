@@ -1,7 +1,6 @@
 package com.smallren.controller;
 
 import com.smallren.entity.User;
-import com.smallren.publisher.FirstSender;
 import com.smallren.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,17 +40,7 @@ public class UserController {
      */
     @RequestMapping("/save")
     @ResponseBody
-    public int save(User user) {
+    public User save(User user) {
         return userService.save(user);
-    }
-
-    @Autowired
-    private FirstSender firstSender;
-
-    @GetMapping("/send")
-    public String send(String message) {
-        String uuid = UUID.randomUUID().toString();
-        firstSender.send(uuid, message);
-        return uuid;
     }
 }

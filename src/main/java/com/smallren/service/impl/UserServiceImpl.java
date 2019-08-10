@@ -1,6 +1,6 @@
 package com.smallren.service.impl;
 
-import com.smallren.dao.UserDao;
+import com.smallren.dao.UserRepository;
 import com.smallren.entity.User;
 import com.smallren.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +22,15 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements IUserService {
     @Autowired
-    UserDao userDao;
+    UserRepository userRepository;
 
     @Override
     public List<User> select() {
-        return userDao.select();
+        return userRepository.findAll();
     }
 
     @Override
-    public int save(User user) {
-        if(user.getId()==null){
-            return userDao.save(user);
-        }
-        else{
-            return userDao.update(user);
-        }
-
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

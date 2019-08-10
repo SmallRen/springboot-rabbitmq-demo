@@ -1,6 +1,7 @@
 package com.smallren.dao;
 
 import com.smallren.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,10 +16,5 @@ import java.util.List;
  * @Version: 3.5.xxx
  */
 @Repository
-public interface UserDao {
-    List<User> select();
-
-    int save(User user);
-
-    int update(User user);
+public interface UserRepository extends JpaRepository<User, Long> {
 }

@@ -2,12 +2,10 @@ package com.smallren.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMqConfig {
     @Value("${application.type}")
-    public   String types;
+    public String types;
 
     public static String type;
 
@@ -62,22 +60,6 @@ public class RabbitMqConfig {
         return BindingBuilder.bind(queueConfig.UserQueue()).to(exchangeConfig.directExchange()).with(ROUTING_USER);
     }
 
-    /**
-     * queue listener  观察 监听模式
-     * 当有消息到达时会通知监听在对应的队列上的监听对象
-     *
-     * @return
-     */
-    @Bean
-    public SimpleMessageListenerContainer simpleMessageListenerContainer_one() {
-        SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer(connectionFactory);
-        simpleMessageListenerContainer.addQueues(queueConfig.UserQueue());
-        simpleMessageListenerContainer.setExposeListenerChannel(true);
-        simpleMessageListenerContainer.setMaxConcurrentConsumers(5);
-        simpleMessageListenerContainer.setConcurrentConsumers(1);
-        simpleMessageListenerContainer.setAcknowledgeMode(AcknowledgeMode.MANUAL); //设置确认模式手工确认
-        return simpleMessageListenerContainer;
-    }
 
     /**
      * 定义rabbit template用于数据的接收和发送
